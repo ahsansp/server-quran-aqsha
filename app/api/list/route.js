@@ -15,13 +15,13 @@ export async function GET(request) {
       console.log(url);
       const reqRepoInfo = await fetch(url);
       const repoInfo = await reqRepoInfo.json();
-      result[qoriName] = { size: repoInfo.size + 50000 };
+      result[qoriName] = { totalBytes: repoInfo.size + 50000 };
     } catch (err) {}
   }
 
   return new Response(
     JSON.stringify({
-      map: { totalBytes: result },
+      map: { qori: result },
     }),
     {
       status: 200,

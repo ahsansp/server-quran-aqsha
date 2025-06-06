@@ -15,7 +15,7 @@ export async function GET(request) {
       console.log(url);
       const reqRepoInfo = await fetch(url);
       const repoInfo = await reqRepoInfo.json();
-      result[qoriName] = { totalBytes: repoInfo.size + 50000 };
+      result[qoriName] = { totalBytes: (repoInfo.size + 50000) * 1024 };
     } catch (err) {}
   }
 

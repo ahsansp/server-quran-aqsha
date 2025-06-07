@@ -3,7 +3,9 @@ export async function GET(request) {
   const getGithubRepo = await fetch(
     `https://api.github.com/users/${process.env.GITHUB_USERNAME}/repos`
   );
-  result = (await getGithubRepo.json())
+  const gitRepo = await getGithubRepo.json();
+  console.log(gitRepo);
+  result = gitRepo
     .map((item) => item.name)
     .reduce((acc, name) => {
       acc[name] = {};

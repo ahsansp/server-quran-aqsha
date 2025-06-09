@@ -1,7 +1,8 @@
 export async function GET(request) {
   let result = {};
   const getGithubRepo = await fetch(
-    `https://api.github.com/users/${process.env.GITHUB_USERNAME}/repos`
+    `https://api.github.com/users/${process.env.GITHUB_USERNAME}/repos`,
+    { next: { revalidate: 60 } }
   );
   const gitRepo = await getGithubRepo.json();
   console.log(gitRepo);
@@ -13,11 +14,17 @@ export async function GET(request) {
     }, {});
   for (const qoriName of Object.keys(result)) {
     try {
-      const url = `https://api.github.com/repos/${process.env.GITHUB_USERNAME}/${qoriName}`;
+      const url = `https://api.github.com/repos/quranAqshaQori/${qoriName}/releases/tags/qori`;
       console.log(url);
       const reqRepoInfo = await fetch(url);
       const repoInfo = await reqRepoInfo.json();
-      result[qoriName] = { totalBytes: (repoInfo.size + 50000) * 1024 };
+      let size = 0;
+      repoInfo.assets.forEach((value) => {
+        size += value.size || 0;
+      });
+      const repoLength = repoInfo.assets.length - 1;
+      console.log("length", repoLength);
+      result[qoriName] = { totalBytes: size, count: repoLength };
     } catch (err) {}
   }
 

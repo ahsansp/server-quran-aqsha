@@ -5,7 +5,7 @@ export async function GET(request) {
     { next: { revalidate: 600 } }
   );
   const gitRepo = await getGithubRepo.json();
-  console.log(gitRepo);
+  // console.log(gitRepo);
   result = gitRepo
     .map((item) => item.name)
     .reduce((acc, name) => {
@@ -15,7 +15,7 @@ export async function GET(request) {
   for (const qoriName of Object.keys(result)) {
     try {
       const url = `https://api.github.com/repos/quranAqshaQori/${qoriName}/releases/tags/qori`;
-      console.log(url);
+      // console.log(url);
       const reqRepoInfo = await fetch(url, { next: { revalidate: 600 } });
       const repoInfo = await reqRepoInfo.json();
       let size = 0;

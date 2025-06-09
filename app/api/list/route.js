@@ -2,7 +2,7 @@ export async function GET(request) {
   let result = {};
   const getGithubRepo = await fetch(
     `https://api.github.com/users/${process.env.GITHUB_USERNAME}/repos`,
-    { next: { revalidate: 60 } }
+    { next: { revalidate: 600 } }
   );
   const gitRepo = await getGithubRepo.json();
   console.log(gitRepo);
@@ -16,7 +16,7 @@ export async function GET(request) {
     try {
       const url = `https://api.github.com/repos/quranAqshaQori/${qoriName}/releases/tags/qori`;
       console.log(url);
-      const reqRepoInfo = await fetch(url);
+      const reqRepoInfo = await fetch(url, { next: { revalidate: 600 } });
       const repoInfo = await reqRepoInfo.json();
       let size = 0;
       repoInfo.assets.forEach((value) => {

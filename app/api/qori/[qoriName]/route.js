@@ -10,7 +10,9 @@ export async function GET(request, { params }) {
   let fileNames = [];
   qoriInfo.assets.forEach((value) => {
     size += value.size || 0;
-    fileNames.push(value.name);
+    const fileName = value.name;
+    const currentSize = value.size;
+    fileNames.push({ fileName, size: currentSize });
   });
   return Response.json({ totalBytes: size, fileNames });
 }
